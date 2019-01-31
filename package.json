@@ -1,0 +1,24 @@
+{
+  "name": "ticktok",
+  "version": "0.1.0",
+  "description": "Official Ticktok.io javascript client library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ticktok-io/ticktok-js-client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ticktok-io/ticktok-js-client/issues"
+  },
+  "homepage": "https://github.com/ticktok-io/ticktok-js-client#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
+}
