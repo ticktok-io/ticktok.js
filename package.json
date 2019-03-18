@@ -2,7 +2,7 @@
   "name": "ticktok",
   "version": "0.1.0",
   "description": "Official Ticktok.io javascript client library",
-  "main": "index.js",
+  "main": "lib/ticktok.js",
   "scripts": {
     "test": "mocha --timeout 1500 --exit ./tests/**/*.spec.js"
   },
@@ -19,6 +19,17 @@
   "homepage": "https://github.com/ticktok-io/ticktok-js-client#readme",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^5.2.0"
+    "eslint": "^5.15.2",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^5.2.0",
+    "nock": "^10.0.6"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
   }
 }
