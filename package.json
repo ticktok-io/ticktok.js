@@ -10,13 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/ticktok-io/ticktok-js-client.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["ticktok", "sdk", "client", "clock", "schedule"],
+  "author": "Eli Segal",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/ticktok-io/ticktok-js-client/issues"
   },
-  "homepage": "https://github.com/ticktok-io/ticktok-js-client#readme",
+  "homepage": "https://github.com/ticktok-io/ticktok-js-client",
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^5.15.2",
