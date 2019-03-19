@@ -1,6 +1,6 @@
 {
   "name": "ticktok",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Official Ticktok.io javascript client library",
   "main": "lib/ticktok.js",
   "scripts": {
@@ -10,7 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/ticktok-io/ticktok-js-client.git"
   },
-  "keywords": ["ticktok", "sdk", "client", "clock", "schedule"],
+  "keywords": [
+    "ticktok",
+    "sdk",
+    "client",
+    "clock",
+    "schedule"
+  ],
   "author": "Eli Segal",
   "license": "Apache-2.0",
   "bugs": {
