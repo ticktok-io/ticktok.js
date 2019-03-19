@@ -1,6 +1,6 @@
 {
   "name": "ticktok",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Official Ticktok.io javascript client library",
   "main": "lib/ticktok.js",
   "scripts": {
