@@ -44,7 +44,7 @@ jobs:
 
 workflows:
   version: 2
-  test-deploy:
+  ticktok-npm:
     jobs:
       - test:
           filters:
@@ -55,6 +55,6 @@ workflows:
             - test
           filters:
             branches:
-              only: master
+              ignore: /\b(?!master)\S+/
             tags:
               only: /^v.*/
