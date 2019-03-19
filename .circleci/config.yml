@@ -49,7 +49,7 @@ workflows:
       - test:
           filters:
             tags:
-              only: /release/.*/
+              only: /master/
       - deploy:
           requires:
             - test
