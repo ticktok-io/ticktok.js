@@ -55,6 +55,6 @@ workflows:
             - test
           filters:
             branches:
-              ignore: /\b(?!master)\S+/
+              ignore: /.*/
             tags:
               only: /^v.*/
