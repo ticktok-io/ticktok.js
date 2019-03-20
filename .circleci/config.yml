@@ -47,9 +47,6 @@ workflows:
   ticktok-npm:
     jobs:
       - test:
-          filters:
-            tags:
-              only: /master/
       - deploy:
           requires:
             - test
