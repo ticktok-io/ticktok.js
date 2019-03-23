@@ -1,10 +1,9 @@
 'use strict'
 
-
 const chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
+const chaiAsPromised = require('chai-as-promised')
 const server = require('./ticktok-server')
-const { ticktok, ClockCreateError } = require('../lib/ticktok')
+const { ticktok, ClockCreateError, ChannelError } = require('../lib/ticktok')
 
 chai.use(chaiAsPromised)
 const expect = chai.expect
@@ -34,9 +33,15 @@ describe('Ticktok', () => {
       })
     }
 
-    const clockRequest = { name: 'kuku', schedule: 'every.2.seconds', callback: () => { ticked = true } }
+    const clockRequest = { name: 'kuku', schedule: 'every.2.seconds', onTick: () => { ticked = true } }
     await this.ticktok.clock(clockRequest)
     await server.tick()
     await waitForTick()
+  })
+
+  it('should fail on rabbit connection', async() => {
+    server.overrides = { rabbitUri: 'amqp://invalid' }
+    const clockRequest = { name: 'kuku', schedule: 'every.2.seconds' }
+    await expect(this.ticktok.clock(clockRequest)).to.be.rejectedWith(ChannelError)
   })
 })
