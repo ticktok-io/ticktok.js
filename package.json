@@ -4,7 +4,7 @@
   "description": "Official Ticktok.io javascript client library",
   "main": "lib/ticktok.js",
   "scripts": {
-    "test": "mocha --timeout 1500 --exit ./tests/**/*.spec.js"
+    "test": "mocha --timeout 5000 --exit ./tests/**/*.spec.js"
   },
   "repository": {
     "type": "git",

@@ -6,13 +6,16 @@ const DOMAIN = 'http://nock.ticktok'
 const TOKEN = '1029'
 const INVALID_SCHEDULE = 'invalid'
 
+let connection
+let channel
 let receivedRequest = ''
 let overrides = {}
 
 const rabbitUri = 'amqp://localhost'
 const queueName = 'spec-tick-queue'
 
-const start = () => {
+const start = async() => {
+  await startRabbit()
   this.overrides = overrides
   nock(DOMAIN)
     .post('/api/v1/clocks')
@@ -34,15 +37,23 @@ const start = () => {
     })
 }
 
+const startRabbit = async() => {
+  connection = await amqp.connect(rabbitUri)
+  channel = await connection.createChannel()
+  channel.assertQueue(queueName, { durable: false })
+}
+
 const receivedRequestIs = (request) => {
   expect(receivedRequest).to.eql(request)
 }
 
-const tick = async() => {
-  const conn = await amqp.connect(rabbitUri)
-  const channel = await conn.createChannel()
-  channel.assertQueue(queueName, { durable: false })
+const tick = () => {
   channel.sendToQueue(queueName, Buffer.from('tick'))
+}
+
+const stop = async() => {
+  await channel.close()
+  await connection.close()
 }
 
 exports.DOMAIN = DOMAIN
@@ -52,3 +63,4 @@ exports.overrides = overrides
 exports.start = start
 exports.receivedRequestIs = receivedRequestIs
 exports.tick = tick
+exports.stop = stop

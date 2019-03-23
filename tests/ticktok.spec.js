@@ -10,8 +10,12 @@ const expect = chai.expect
 
 describe('Ticktok', () => {
   beforeEach(() => {
-    server.start()
     this.ticktok = ticktok(server.DOMAIN, server.TOKEN)
+    return server.start()
+  })
+
+  afterEach(() => {
+    return server.stop()
   })
 
   it('should fail on non valid schedule', async() => {
@@ -28,14 +32,17 @@ describe('Ticktok', () => {
         if (ticked) {
           resolve()
         } else {
-          setTimeout(waitForTick, 50)
+          setTimeout(async() => {
+            await waitForTick
+            resolve()
+          }, 50)
         }
       })
     }
 
     const clockRequest = { name: 'kuku', schedule: 'every.2.seconds', onTick: () => { ticked = true } }
     await this.ticktok.clock(clockRequest)
-    await server.tick()
+    server.tick()
     await waitForTick()
   })
 
