@@ -1,6 +1,6 @@
 {
   "name": "ticktok",
-  "version": "0.0.11-0",
+  "version": "0.0.11",
   "description": "Official Ticktok.io javascript client library",
   "main": "lib/ticktok.js",
   "scripts": {
@@ -25,7 +25,8 @@
   "homepage": "https://github.com/ticktok-io/ticktok-js-client",
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint": "^5.15.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^5.15.3",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
@@ -36,6 +37,7 @@
     "nock": "^10.0.6"
   },
   "dependencies": {
+    "amqplib": "^0.5.3",
     "axios": "^0.18.0"
   }
 }

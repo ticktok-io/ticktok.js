@@ -14,6 +14,7 @@ module.exports = {
     'ecmaVersion': 2018
   },
   'rules': {
-    'space-before-function-paren': ['error', 'never']
+    'space-before-function-paren': ['error', 'never'],
+    'handle-callback-err': ['warn', 'always']
   }
 }
