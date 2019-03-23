@@ -4,7 +4,8 @@
   "description": "Official Ticktok.io javascript client library",
   "main": "lib/ticktok.js",
   "scripts": {
-    "test": "mocha --timeout 5000 --exit ./tests/**/*.spec.js"
+    "test": "mocha tests --timeout 5000 --exit",
+    "ci-test": "MOCHA_FILE=./test-results/mocha/results.xml mocha tests --timeout 5000 --exit --reporter mocha-junit-reporter"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
     "nock": "^10.0.6"
   },
   "dependencies": {
