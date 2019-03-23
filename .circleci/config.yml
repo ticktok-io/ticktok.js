@@ -8,6 +8,8 @@ defaults: &defaults
 jobs:
   test:
     <<: *defaults
+    docker:
+      - image: rabbitmq
     steps:
       - checkout
 
