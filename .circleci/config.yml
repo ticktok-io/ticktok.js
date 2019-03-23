@@ -34,8 +34,6 @@ jobs:
           root: ~/repo
           paths: .
 
-      -
-
   deploy:
     <<: *defaults
     steps:
