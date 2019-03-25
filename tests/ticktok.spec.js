@@ -3,7 +3,7 @@
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 const server = require('./ticktok-server')
-const { ticktok, ClockCreateError, ChannelError } = require('../lib/ticktok')
+const { ticktok, ClockCreateError, ChannelError } = require('../src/ticktok')
 
 chai.use(chaiAsPromised)
 const expect = chai.expect
