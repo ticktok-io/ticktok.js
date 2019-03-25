@@ -21,20 +21,24 @@ const start = async() => {
     .post('/api/v1/clocks')
     .query({ 'access_token': TOKEN })
     .reply((uri, body) => {
-      receivedRequest = JSON.parse(body)
-      if (receivedRequest.schedule === INVALID_SCHEDULE) {
-        return [400, '']
-      }
-      return [201, JSON.stringify({
-        channel: {
-          details:
-            {
-              rabbitUri: this.overrides.rabbitUri || rabbitUri,
-              queue: this.overrides.queue || queueName
-            }
-        }
-      })]
+      return createResultFor(body)
     })
+}
+
+const createResultFor = (body) => {
+  receivedRequest = JSON.parse(body)
+  if (receivedRequest.schedule === INVALID_SCHEDULE) {
+    return [400, '']
+  }
+  return [201, JSON.stringify({
+    channel: {
+      details:
+        {
+          rabbitUri: this.overrides.rabbitUri || rabbitUri,
+          queue: this.overrides.queue || queueName
+        }
+    }
+  })]
 }
 
 const startRabbit = async() => {

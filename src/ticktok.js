@@ -12,7 +12,7 @@ function Ticktok(domain, token) {
   this.token = token
 }
 
-Ticktok.prototype.clock = async function(props) {
+Ticktok.prototype.schedule = async function(props) {
   const clock = await createClock(this.domain, this.token, props)
   await listenOnTicks(clock, props.onTick)
 }

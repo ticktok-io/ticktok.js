@@ -20,7 +20,7 @@ describe('Ticktok', () => {
 
   it('should fail on non valid schedule', async() => {
     const clockRequest = { name: 'kuku', schedule: server.INVALID_SCHEDULE }
-    await expect(this.ticktok.clock(clockRequest)).to.be.rejectedWith(ClockCreateError)
+    await expect(this.ticktok.schedule(clockRequest)).to.be.rejectedWith(ClockCreateError)
     server.receivedRequestIs(clockRequest)
   })
 
@@ -41,7 +41,7 @@ describe('Ticktok', () => {
     }
 
     const clockRequest = { name: 'kuku', schedule: 'every.2.seconds', onTick: () => { ticked = true } }
-    await this.ticktok.clock(clockRequest)
+    await this.ticktok.schedule(clockRequest)
     server.tick()
     await waitForTick()
   })
@@ -49,6 +49,6 @@ describe('Ticktok', () => {
   it('should fail on rabbit connection', async() => {
     server.overrides = { rabbitUri: 'amqp://invalid' }
     const clockRequest = { name: 'kuku', schedule: 'every.2.seconds' }
-    await expect(this.ticktok.clock(clockRequest)).to.be.rejectedWith(ChannelError)
+    await expect(this.ticktok.schedule(clockRequest)).to.be.rejectedWith(ChannelError)
   })
 })
