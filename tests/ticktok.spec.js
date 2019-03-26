@@ -3,7 +3,7 @@
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 const server = require('./ticktok-server')
-const { ticktok, ClockCreateError, ChannelError } = require('../src/ticktok')
+const { ticktok, clock, ClockCreateError, ChannelError } = require('../src/ticktok')
 
 chai.use(chaiAsPromised)
 const expect = chai.expect
@@ -19,9 +19,9 @@ describe('Ticktok', () => {
   })
 
   it('should fail on non valid schedule', async() => {
-    const clockRequest = { name: 'kuku', schedule: server.INVALID_SCHEDULE }
+    const clockRequest = clock.named('kuku').on(server.INVALID_SCHEDULE)
     await expect(this.ticktok.schedule(clockRequest)).to.be.rejectedWith(ClockCreateError)
-    server.receivedRequestIs(clockRequest)
+    server.receivedRequestIs({ name: 'kuku', schedule: server.INVALID_SCHEDULE })
   })
 
   it('should invoke on tick', async() => {
@@ -33,22 +33,21 @@ describe('Ticktok', () => {
           resolve()
         } else {
           setTimeout(async() => {
-            await waitForTick
+            await waitForTick()
             resolve()
           }, 50)
         }
       })
     }
 
-    const clockRequest = { name: 'kuku', schedule: 'every.2.seconds', onTick: () => { ticked = true } }
-    await this.ticktok.schedule(clockRequest)
+    await this.ticktok.schedule(clock.named('kuku').on('every.2.seconds').invoke(() => { ticked = true }))
     server.tick()
     await waitForTick()
   })
 
   it('should fail on rabbit connection', async() => {
     server.overrides = { rabbitUri: 'amqp://invalid' }
-    const clockRequest = { name: 'kuku', schedule: 'every.2.seconds' }
-    await expect(this.ticktok.schedule(clockRequest)).to.be.rejectedWith(ChannelError)
+    await expect(this.ticktok.schedule(clock.named('kuku').on('every.6.seconds')))
+      .to.be.rejectedWith(ChannelError)
   })
 })

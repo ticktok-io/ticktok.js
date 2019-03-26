@@ -12,14 +12,29 @@ function Ticktok(domain, token) {
   this.token = token
 }
 
-Ticktok.prototype.schedule = async function(props) {
-  const clock = await createClock(this.domain, this.token, props)
-  await listenOnTicks(clock, props.onTick)
+Ticktok.prototype.schedule = async function(clock) {
+  const createdClock = await createClock(this.domain, this.token, clock)
+  await listenOnTicks(createdClock, clock.callback)
 }
 
-const createClock = async(domain, token, props) => {
+const clock = {
+  named(name) {
+    this.name = name
+    return this
+  },
+  on(schedule) {
+    this.schedule = schedule
+    return this
+  },
+  invoke(callback) {
+    this.callback = callback
+    return this
+  }
+}
+
+const createClock = async(domain, token, { name, schedule }) => {
   try {
-    const response = await axios.post(`${domain}/api/v1/clocks?access_token=${token}`, props)
+    const response = await axios.post(`${domain}/api/v1/clocks?access_token=${token}`, { name, schedule })
     return response.data
   } catch (err) {
     throw new ClockCreateError(err)
@@ -51,5 +66,6 @@ class ChannelError extends require('./TicktokError') {
 }
 
 exports.ticktok = ticktok
+exports.clock = clock
 exports.ClockCreateError = ClockCreateError
 exports.ChannelError = ChannelError
