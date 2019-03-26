@@ -1,10 +1,15 @@
 {
   "name": "ticktok",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "description": "Official Ticktok.io javascript client library",
   "main": "lib/ticktok.js",
   "scripts": {
-    "test": "mocha --timeout 1500 --exit ./tests/**/*.spec.js"
+    "test": "mocha tests --timeout 5000 --exit",
+    "ci-test": "MOCHA_FILE=./test-results/mocha/results.xml mocha tests --timeout 5000 --exit --reporter mocha-junit-reporter",
+    "prepublish": "babel src --out-dir lib"
+  },
+  "babel": {
+    "presets": ["es2015"]
   },
   "repository": {
     "type": "git",
@@ -24,8 +29,12 @@
   },
   "homepage": "https://github.com/ticktok-io/ticktok-js-client",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
     "chai": "^4.2.0",
-    "eslint": "^5.15.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^5.15.3",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
@@ -33,9 +42,11 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
     "nock": "^10.0.6"
   },
   "dependencies": {
+    "amqplib": "^0.5.3",
     "axios": "^0.18.0"
   }
 }
