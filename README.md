@@ -1,5 +1,6 @@
 # Ticktok.io JS Client
 [![CircleCI](https://circleci.com/gh/ticktok-io/ticktok.js.svg?style=svg)](https://circleci.com/gh/ticktok-io/ticktok.js)
+[![Release](https://img.shields.io/github/release/ticktok-io/ticktok.js.svg)](https://github.com/ticktok-io/ticktok.js/releases/tag)
 
 ## Description
 This is a Javascript client for [Ticktok.io](https://ticktok.io). It allows to easily creating new clocks and invoke actions on ticks.
