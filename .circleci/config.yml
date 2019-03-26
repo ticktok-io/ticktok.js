@@ -4,6 +4,7 @@ defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: circleci/node:8
+    - image: rabbitmq:3.7
 
 jobs:
   test:
@@ -19,12 +20,15 @@ jobs:
             - v1-dependencies-
 
       - run: npm ci
-      - run: npm run test
+      - run: npm run ci-test
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
+      - store_test_results:
+          path: test-results
 
       - persist_to_workspace:
           root: ~/repo
