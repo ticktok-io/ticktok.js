@@ -1,5 +1,5 @@
 # Ticktok.io JS Client
-[![CircleCI](https://circleci.com/gh/ticktok-io/ticktok-js-client.svg?style=svg)](https://circleci.com/gh/ticktok-io/ticktok-js-client)
+[![CircleCI](https://circleci.com/gh/ticktok-io/ticktok.js.svg?style=svg)](https://circleci.com/gh/ticktok-io/ticktok.js)
 
 ## Description
 This is a Javascript client for [Ticktok.io](https://ticktok.io). It allows to easily creating new clocks and invoke actions on ticks.
@@ -12,10 +12,10 @@ npm i ticktok
 ## Examples
 ### Register an action for a clock
 ```javascript
-const { ticktok } = require('ticktok')
+const { ticktok, clock } = require('ticktok')
 
 ticktok('https://ticktok', 'token')
-  .clock({name: 'kuku', schedule: 'every.10.seconds', onTick: () => { console.log('tick')}})
+  .schedule(clock.named('kuku').on('every.10.seconds').invoke(() => { console.log('tick') }))
 ```
 
 ## Community
