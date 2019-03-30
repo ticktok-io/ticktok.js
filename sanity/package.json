@@ -12,8 +12,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "ticktok": "file:../",
     "chai": "^4.2.0",
-    "mocha": "^6.0.2"
+    "mocha": "^6.0.2",
+    "ticktok": "file:.."
   }
 }
