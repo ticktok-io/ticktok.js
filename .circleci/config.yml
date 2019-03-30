@@ -42,6 +42,8 @@ jobs:
           root: ~/repo
           paths: .
 
+      - run: cd sanity && npm install && npm run test
+
   deploy:
     <<: *defaults
     steps:

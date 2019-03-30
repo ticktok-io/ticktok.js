@@ -2,6 +2,9 @@
   "name": "ticktok-examples",
   "version": "1.0.0",
   "description": "Sanity tests for ticktok.js",
+  "scripts": {
+    "test": "mocha tests --timeout 5000 --exit"
+  },
   "keywords": [
     "ticktok",
     "js",
