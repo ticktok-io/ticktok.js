@@ -43,9 +43,9 @@ const createClock = async(domain, token, { name, schedule }) => {
 
 const listenOnTicks = async({ channel }, callback) => {
   try {
-    const conn = await amqp.connect(channel.details.rabbitUri)
-    const ch = await conn.createChannel()
-    ch.consume(channel.details.queue, function(msg) {
+    this.connection = await amqp.connect(channel.details.uri)
+    this.channel = await this.connection.createChannel()
+    this.channel.consume(channel.details.queue, function(msg) {
       callback.call(msg)
     }, { noAck: true })
   } catch (err) {

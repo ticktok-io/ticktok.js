@@ -4,7 +4,7 @@ defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: circleci/node:8
-    - image: rabbitmq:3.7
+    - image: rabbitmq:3
 
 jobs:
   test:
