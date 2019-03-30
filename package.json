@@ -2,16 +2,13 @@
   "name": "ticktok",
   "version": "0.1.1",
   "description": "Official Ticktok.io javascript client library",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "main": "lib/ticktok.js",
   "scripts": {
     "test": "mocha tests --timeout 5000 --exit",
-    "ci-test": "MOCHA_FILE=./test-results/mocha/results.xml mocha tests --timeout 5000 --exit --reporter mocha-junit-reporter",
-    "prepublish": "babel src --out-dir lib"
-  },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "ci-test": "MOCHA_FILE=./test-results/mocha/results.xml mocha tests --timeout 5000 --exit --reporter mocha-junit-reporter"
   },
   "repository": {
     "type": "git",
@@ -31,12 +28,9 @@
   },
   "homepage": "https://github.com/ticktok-io/ticktok-js-client",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-es2015": "^6.24.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^5.15.3",
+    "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
