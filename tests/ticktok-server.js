@@ -34,7 +34,7 @@ const createResultFor = (body) => {
     channel: {
       details:
         {
-          rabbitUri: this.overrides.rabbitUri || rabbitUri,
+          uri: this.overrides.rabbitUri || rabbitUri,
           queue: this.overrides.queue || queueName
         }
     }
@@ -44,7 +44,9 @@ const createResultFor = (body) => {
 const startRabbit = async() => {
   connection = await amqp.connect(rabbitUri)
   channel = await connection.createChannel()
-  channel.assertQueue(queueName, { durable: false })
+  await channel.assertExchange('spec-ex', 'fanout')
+  await channel.assertQueue(queueName, { autoDelete: true })
+  await channel.bindQueue(queueName, 'spec-ex', '')
 }
 
 const receivedRequestIs = (request) => {

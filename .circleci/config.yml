@@ -4,11 +4,18 @@ defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: circleci/node:8
+
+tests: &tests
+  <<: *defaults
+  docker:
     - image: rabbitmq:3.7
+    - image: ticktok: 0.2.1
+      environment:
+        RABBIT_URI: amqp://localhost
 
 jobs:
   test:
-    <<: *defaults
+    <<: *tests
     steps:
       - checkout
 

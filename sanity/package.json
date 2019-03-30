@@ -1,0 +1,16 @@
+{
+  "name": "ticktok-examples",
+  "version": "1.0.0",
+  "description": "Sanity tests for ticktok.js",
+  "keywords": [
+    "ticktok",
+    "js",
+    "sdk"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "ticktok": "file:../",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2"
+  }
+}

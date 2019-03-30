@@ -14,8 +14,8 @@ describe('Ticktok', () => {
     return server.start()
   })
 
-  afterEach(() => {
-    return server.stop()
+  afterEach(async() => {
+    await server.stop()
   })
 
   it('should fail on non valid schedule', async() => {
@@ -25,24 +25,10 @@ describe('Ticktok', () => {
   })
 
   it('should invoke on tick', async() => {
-    let ticked = false
-
-    function waitForTick() {
-      return new Promise((resolve, reject) => {
-        if (ticked) {
-          resolve()
-        } else {
-          setTimeout(async() => {
-            await waitForTick()
-            resolve()
-          }, 50)
-        }
-      })
-    }
-
-    await this.ticktok.schedule(clock.named('kuku').on('every.2.seconds').invoke(() => { ticked = true }))
-    server.tick()
-    await waitForTick()
+    return new Promise((resolve, reject) => {
+      this.ticktok.schedule(clock.named('kuku').on('every.2.seconds').invoke(() => { resolve() }))
+      server.tick()
+    })
   })
 
   it('should fail on rabbit connection', async() => {
