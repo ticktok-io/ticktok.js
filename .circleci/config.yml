@@ -5,18 +5,9 @@ defaults: &defaults
   docker:
     - image: circleci/node:8
 
-tests: &tests
-  <<: *defaults
-  docker:
-    - image: circleci/node:8
-    - image: rabbitmq:3.7
-    - image: ticktok/ticktok:0.2.1
-      environment:
-        RABBIT_URI: amqp://localhost
-
 jobs:
   test:
-    <<: *tests
+    <<: *defaults
     steps:
       - checkout
 
@@ -41,8 +32,6 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths: .
-
-      - run: cd sanity && npm install && npm run test
 
   deploy:
     <<: *defaults
