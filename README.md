@@ -16,7 +16,7 @@ npm i ticktok
 const { ticktok, clock } = require('ticktok')
 
 ticktok('https://ticktok', 'token')
-  .schedule(clock.named('kuku').on('every.10.seconds').invoke(() => { console.log('tick') }))
+  .schedule({ name: 'kuku', schedule: 'every.10.seconds'}, () => { console.log('tick') }))
 ```
 
 ## Community
