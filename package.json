@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "main": "lib/ticktok.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha tests --timeout 5000 --exit",
     "ci-test": "MOCHA_FILE=./test-results/mocha/results.xml mocha tests --timeout 5000 --exit --reporter mocha-junit-reporter"
@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "amqplib": "^0.5.3",
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "axios-retry": "^3.1.2"
   }
 }
