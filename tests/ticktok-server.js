@@ -21,6 +21,7 @@ const start = async() => {
   this.overrides = overrides
   nock(DOMAIN)
     .post('/api/v1/clocks')
+    .times(2)
     .query({ 'access_token': TOKEN })
     .reply((uri, body) => {
       return createResultFor(body)
@@ -34,6 +35,7 @@ const createResultFor = (body) => {
   }
   return [201, JSON.stringify({
     channel: {
+      type: 'rabbit',
       details:
         {
           uri: this.overrides.rabbitUri || rabbitUri,
@@ -62,6 +64,7 @@ const tick = () => {
 const stop = async() => {
   await channel.close()
   await connection.close()
+  nock.cleanAll()
 }
 
 exports.DOMAIN = DOMAIN
