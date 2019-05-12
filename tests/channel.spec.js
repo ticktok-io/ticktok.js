@@ -4,6 +4,7 @@ const nock = require('nock')
 const channel = require('../lib/channel')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
+const amqp = require('amqplib')
 
 chai.use(chaiAsPromised)
 const expect = chai.expect
@@ -105,5 +106,49 @@ describe('Tick Channel', () => {
         .times(2)
         .reply(200, [{ schedule: 's' }])
     })
+  })
+
+  describe('Rabbit channel', () => {
+
+    const rabbitUri = 'amqp://localhost'
+    const queueName = 'channel-test'
+
+    beforeEach(async() => {
+      this.listener = channel()
+      await createQueue()
+    })
+
+    afterEach(async() => {
+      await this.channel.close()
+      await this.connection.close()
+    })
+
+    const createQueue = async() => {
+      this.connection = await amqp.connect(rabbitUri)
+      this.channel = await this.connection.createChannel()
+      await this.channel.assertExchange('spec-ex', 'fanout')
+      await this.channel.assertQueue(queueName, { autoDelete: true })
+      await this.channel.bindQueue(queueName, 'spec-ex', '')
+    }
+
+    it('should replace callback upon register an already registered clock', (done) => {
+      let oldCallbackTicks = 0
+      let newCallbackTicks = 0
+      register(12, () => { oldCallbackTicks++ })
+      register(12, () => { newCallbackTicks++ })
+
+      this.channel.sendToQueue(queueName, Buffer.from('tick'))
+      setTimeout(() => {
+        expect(oldCallbackTicks).to.equal(0)
+        expect(newCallbackTicks).to.be.greaterThan(0)
+        done()
+      }, 1000)
+    })
+
+    const register = (id, callback) => {
+      this.listener.register(
+        { id: id, channel: { type: 'rabbit', details: { uri: rabbitUri, queue: queueName } } },
+        callback)
+    }
   })
 })
