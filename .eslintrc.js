@@ -16,6 +16,7 @@ module.exports = {
   'rules': {
     'space-before-function-paren': ['error', 'never'],
     'handle-callback-err': ['warn', 'always'],
-    'no-unused-vars': ['warn']
+    'no-unused-vars': ['warn'],
+    'no-trailing-spaces': ['warn']
   }
 }

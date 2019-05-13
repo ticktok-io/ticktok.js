@@ -16,6 +16,7 @@ describe('Ticktok', () => {
 
   afterEach(async() => {
     await server.stop()
+    await this.ticktok.disconnect()
   })
 
   it('should fail on non valid schedule', async() => {
@@ -34,5 +35,15 @@ describe('Ticktok', () => {
     server.overrides = { rabbitUri: 'amqp://invalid' }
     return expect(this.ticktok.schedule({ name: 'kuku', schdule: 'every.6.seconds' }))
       .to.be.rejectedWith(ticktok.ChannelError)
+  })
+
+  it('should disconnect all clock', async() => {
+    let tickCount = 0
+    await this.ticktok.schedule({ name: 'kuku', schedule: 'every.2.seconds' }, () => { tickCount++ })
+    await this.ticktok.schedule({ name: 'popo', schedule: 'every.1.seconds' }, () => { tickCount++ })
+    await this.ticktok.disconnect()
+    server.tick()
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    expect(tickCount).to.equal(0)
   })
 })
