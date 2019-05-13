@@ -13,10 +13,10 @@ npm i ticktok
 ## Examples
 ### Register an action for a clock
 ```javascript
-const { ticktok, clock } = require('ticktok')
+const ticktok = require('ticktok')
 
 ticktok('https://ticktok', 'token')
-  .schedule({ name: 'kuku', schedule: 'every.10.seconds'}, () => { console.log('tick') }))
+  .schedule({ name: 'kuku', schedule: 'every.10.seconds'}, () => { console.log('tick') })
 ```
 
 ## Community
