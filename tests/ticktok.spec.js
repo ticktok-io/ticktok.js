@@ -28,7 +28,7 @@ describe('Ticktok', () => {
 
   it('should invoke on tick', (done) => {
     this.ticktok.schedule({ name: 'kuku', schedule: 'every.2.seconds' }, (err, tick) => {
-      if (!err) done()
+      if (!err && tick.schedule === server.TICK_MSG) done()
     })
     server.tick()
   })

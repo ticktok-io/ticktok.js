@@ -7,6 +7,7 @@ const amqp = require('amqplib')
 const DOMAIN = 'http://nock.ticktok'
 const TOKEN = '1029'
 const INVALID_SCHEDULE = 'invalid'
+const TICK_MSG = 'tick'
 
 let connection
 let channel
@@ -58,7 +59,7 @@ const receivedRequestIs = (request) => {
 }
 
 const tick = () => {
-  channel.sendToQueue(queueName, Buffer.from(JSON.stringify({ schedule: 'tick' })))
+  channel.sendToQueue(queueName, Buffer.from(JSON.stringify({ schedule: TICK_MSG })))
 }
 
 const stop = async() => {
@@ -70,6 +71,7 @@ const stop = async() => {
 exports.DOMAIN = DOMAIN
 exports.TOKEN = TOKEN
 exports.INVALID_SCHEDULE = INVALID_SCHEDULE
+exports.TICK_MSG = TICK_MSG
 exports.overrides = overrides
 exports.start = start
 exports.receivedRequestIs = receivedRequestIs

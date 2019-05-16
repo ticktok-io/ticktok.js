@@ -137,7 +137,7 @@ describe('Tick Channel', () => {
       register(12, () => { oldCallbackTicks++ })
       register(12, () => { newCallbackTicks++ })
 
-      this.channel.sendToQueue(queueName, Buffer.from('tick'))
+      this.channel.sendToQueue(queueName, Buffer.from(JSON.stringify({ schedule: 'tick' })))
       setTimeout(() => {
         expect(oldCallbackTicks).to.equal(0)
         expect(newCallbackTicks).to.be.greaterThan(0)
