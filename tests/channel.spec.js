@@ -52,7 +52,7 @@ describe('Tick Channel', () => {
       let ticks = []
       register(1, (err, schedule) => {
         ticks.push(schedule)
-        if (ticks.includes('s1') && ticks.length > 1) done()
+        if (ticks.length > 1 && ticks[0].schedule === 's1') done()
       })
     })
 

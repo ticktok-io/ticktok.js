@@ -58,7 +58,7 @@ const receivedRequestIs = (request) => {
 }
 
 const tick = () => {
-  channel.sendToQueue(queueName, Buffer.from('tick'))
+  channel.sendToQueue(queueName, Buffer.from(JSON.stringify({ schedule: 'tick' })))
 }
 
 const stop = async() => {
