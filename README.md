@@ -1,6 +1,6 @@
 # Ticktok.io JS Client
 [![CircleCI](https://circleci.com/gh/ticktok-io/ticktok.js.svg?style=svg)](https://circleci.com/gh/ticktok-io/ticktok.js)
-[![Release](https://img.shields.io/github/release/ticktok-io/ticktok.js.svg)](https://github.com/ticktok-io/ticktok.js/releases/tag)
+[![Release](https://img.shields.io/github/release/ticktok-io/ticktok.js.svg)](https://github.com/ticktok-io/ticktok.js/releases/tag/0.2.1)
 [![License](http://img.shields.io/:license-apache2.0-red.svg)](http://doge.mit-license.org)
 [![Gitter](https://badges.gitter.im/ticktok-io/community.svg)](https://gitter.im/ticktok-io/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
