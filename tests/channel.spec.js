@@ -52,7 +52,7 @@ describe('Tick Channel', () => {
       let ticks = []
       register(1, (err, schedule) => {
         ticks.push(schedule)
-        if (ticks.includes('s1') && ticks.length > 1) done()
+        if (ticks.length > 1 && ticks[0].schedule === 's1') done()
       })
     })
 
@@ -137,7 +137,7 @@ describe('Tick Channel', () => {
       register(12, () => { oldCallbackTicks++ })
       register(12, () => { newCallbackTicks++ })
 
-      this.channel.sendToQueue(queueName, Buffer.from('tick'))
+      this.channel.sendToQueue(queueName, Buffer.from(JSON.stringify({ schedule: 'tick' })))
       setTimeout(() => {
         expect(oldCallbackTicks).to.equal(0)
         expect(newCallbackTicks).to.be.greaterThan(0)
