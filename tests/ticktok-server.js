@@ -3,6 +3,8 @@
 const nock = require('nock')
 const expect = require('chai').expect
 const amqp = require('amqplib')
+const URLSearchParams = require('url').URLSearchParams;
+const URL = require('url').URL
 
 const DOMAIN = 'http://nock.ticktok'
 const TOKEN = '1029'
@@ -31,18 +33,24 @@ const start = async() => {
       return createResultFor(body)
     })
     .get('/api/v1/clocks')
-    .query('*')
+    .query(true)
     .reply((uri, body) => {
-      const urlParams = new URLSearchParams(uri)
-      return [200, JSON.stringify([{ id: clocks[`${urlParams.get('name')}${urlParams.get('schedule')}`]}])]
+      const resultClocks = []
+      const urlParams = new URLSearchParams(new URL('http://bla' + uri).search)
+      const clockKey = `${urlParams.get('name')}${urlParams.get('schedule')}`
+      if (clockKey in clocks) {
+        resultClocks.push({ id: clocks[clockKey] })
+      }
+      return [200, resultClocks]
     })
-    .post('/api/v1/clocks/.+/tick')
+    .put(/api\/v1\/clocks\/.+\/tick$/)
+    .query({ access_token: TOKEN })
     .reply((uri, body) => {
-      ids = []
-      const res = uri.match('/api/v1/clocks/.+/tick')
-      if(res[0] in Object.values(clocks)) {
-        tickedClocks.push(res[0])
-        ids.push({id: res[0]})
+      const ids = []
+      const res = uri.match(/api\/v1\/clocks\/(.+)\/tick\?.+$/)
+      if (Object.values(clocks).includes(res[1])) {
+        tickedClocks.push(res[1])
+        ids.push({ id: res[1] })
       }
       [200, JSON.stringify(ids)]
     })
@@ -82,7 +90,7 @@ const tick = () => {
 }
 
 const receivedTickFor = (id) => {
-  return id in tickedClocks
+  expect(tickedClocks).to.include(id)
 }
 
 const addClock = (clock) => {
@@ -93,6 +101,8 @@ const stop = async() => {
   await channel.close()
   await connection.close()
   nock.cleanAll()
+  clocks = {}
+  tickedClocks = []
 }
 
 const clockSearchedWith = (params) => {
