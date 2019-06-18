@@ -12,7 +12,10 @@ const TICK_MSG = 'tick'
 let connection
 let channel
 let receivedRequest = ''
+let searchParams = {}
 let overrides = {}
+let clocks = {}
+let tickedClocks = []
 
 const rabbitUri = 'amqp://localhost'
 const queueName = 'spec-tick-queue'
@@ -26,6 +29,22 @@ const start = async() => {
     .query({ 'access_token': TOKEN })
     .reply((uri, body) => {
       return createResultFor(body)
+    })
+    .get('/api/v1/clocks')
+    .query('*')
+    .reply((uri, body) => {
+      const urlParams = new URLSearchParams(uri)
+      return [200, JSON.stringify([{ id: clocks[`${urlParams.get('name')}${urlParams.get('schedule')}`]}])]
+    })
+    .post('/api/v1/clocks/.+/tick')
+    .reply((uri, body) => {
+      ids = []
+      const res = uri.match('/api/v1/clocks/.+/tick')
+      if(res[0] in Object.values(clocks)) {
+        tickedClocks.push(res[0])
+        ids.push({id: res[0]})
+      }
+      [200, JSON.stringify(ids)]
     })
 }
 
@@ -62,10 +81,22 @@ const tick = () => {
   channel.sendToQueue(queueName, Buffer.from(JSON.stringify({ schedule: TICK_MSG })))
 }
 
+const receivedTickFor = (id) => {
+  return id in tickedClocks
+}
+
+const addClock = (clock) => {
+  clocks[`${clock.name}${clock.schedule}`] = clock.id
+}
+
 const stop = async() => {
   await channel.close()
   await connection.close()
   nock.cleanAll()
+}
+
+const clockSearchedWith = (params) => {
+  expect(searchParams).to.eql(params)
 }
 
 exports.DOMAIN = DOMAIN
@@ -75,5 +106,8 @@ exports.TICK_MSG = TICK_MSG
 exports.overrides = overrides
 exports.start = start
 exports.receivedRequestIs = receivedRequestIs
+exports.clockSearchedWith = clockSearchedWith
+exports.addClock = addClock
+exports.receivedTickFor = receivedTickFor
 exports.tick = tick
 exports.stop = stop
