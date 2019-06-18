@@ -54,7 +54,7 @@ describe('Ticktok', () => {
 
   describe('Manual tick', () => {
     it('should fail on clock not found', async() => {
-      await expect(this.ticktok.tick(kuku2seconds)).to.be.rejectedWith(ticktok.ClockNotFound)
+      await expect(this.ticktok.tick(kuku2seconds)).to.be.rejectedWith(ticktok.ClockTickError)
     })
 
     it('should invoke a manual tick', async() => {
