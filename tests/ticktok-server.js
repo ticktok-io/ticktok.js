@@ -4,6 +4,7 @@ const nock = require('nock')
 const expect = require('chai').expect
 const amqp = require('amqplib')
 const URLSearchParams = require('url').URLSearchParams;
+const URL = require('url').URL
 
 const DOMAIN = 'http://nock.ticktok'
 const TOKEN = '1029'
