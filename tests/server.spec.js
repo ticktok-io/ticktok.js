@@ -46,7 +46,7 @@ describe('Server actions', () => {
       await expect(server.tick(clock, options)).to.be.rejectedWith(server.ClockTickError)
     })
 
-    it('shoul fail on non existing clock', async() => {
+    it('should fail on non existing clock', async() => {
       nock(options.domain)
         .get(server.clocksPath)
         .query(clock)
