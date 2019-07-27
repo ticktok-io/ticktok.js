@@ -2,15 +2,19 @@ version: 2
 
 defaults: &defaults
   working_directory: ~/repo
-  docker:
-    - image: circleci/node:8
-    - image: rabbitmq:3
 
 jobs:
   test:
     <<: *defaults
+    machine:
+      image: circleci/classic:201808-01
+
     steps:
       - checkout
+
+      - run:
+          name: Run docker-compose.yml
+          command: docker-compose up -d
 
       # Download and cache dependencies
       - restore_cache:
@@ -19,13 +23,15 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: npm ci
-      - run: npm run ci-test
+      - run: ./run_npm.sh ci
+      - run: ./run_npm.sh run ci-test
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: docker-compose down
 
       - store_test_results:
           path: test-results
@@ -34,8 +40,42 @@ jobs:
           root: ~/repo
           paths: .
 
+  sanity:
+    working_directory: ~/repo/sanity
+    machine:
+      image: circleci/classic:201808-01
+
+    steps:
+      - checkout
+
+      - run:
+          name: Run docker-compose.yml
+          command: docker-compose up -d
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-sanity-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-sanity-dependencies-
+
+      - run: ./run_npm.sh ci
+      - run: ./run_npm.sh run ci-test
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-sanity-dependencies-{{ checksum "package.json" }}
+
+      - run: docker-compose down
+
+      - store_test_results:
+          path: test-results
+
   deploy:
     <<: *defaults
+    docker:
+      - image: circleci/node:8
     steps:
       - attach_workspace:
           at: ~/repo
@@ -54,9 +94,14 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+      - sanity:
+          filters:
+            tags:
+              only: /^v.*/
       - deploy:
           requires:
             - test
+            - sanity
           filters:
             branches:
               ignore: /.*/
