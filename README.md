@@ -20,6 +20,12 @@ const ticktok = require('ticktok')
 ticktok('https://ticktok', 'token')
   .schedule({ name: 'kuku', schedule: 'every.10.seconds'}, (err, tick) => { console.log('tick') })
 ```
+### Send a tick
+```javascript
+const ticktok = require('ticktok')
+
+ticktok('https://ticktok', 'token').tick({ name: 'popo', schedule: '@Never' })
+```
 
 ## Community
 Have some questions/ideas? Chat with us on [Gitter](https://gitter.im/ticktok-io/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
