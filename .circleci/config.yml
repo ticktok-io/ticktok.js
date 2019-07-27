@@ -16,6 +16,8 @@ jobs:
           name: Run docker-compose.yml
           command: docker-compose up -d
 
+      - run: sleep 5
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -51,6 +53,8 @@ jobs:
       - run:
           name: Run docker-compose.yml
           command: docker-compose up -d
+
+      - run: sleep 10
 
       # Download and cache dependencies
       - restore_cache:
