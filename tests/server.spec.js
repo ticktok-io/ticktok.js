@@ -28,7 +28,7 @@ describe('Server actions', () => {
   })
 
   describe('Manual tick', () => {
-    const findClockParams = Object.assign({}, clock, {access_token: options.token})
+    const findClockParams = Object.assign({}, clock, { access_token: options.token })
 
     it('should fail on server error when finding clock', async() => {
       nock(options.domain)
