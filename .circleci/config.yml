@@ -16,7 +16,7 @@ jobs:
           name: Run docker-compose.yml
           command: docker-compose up -d
 
-      - run: sleep 10
+      - run: sleep 20
 
       # Download and cache dependencies
       - restore_cache:
