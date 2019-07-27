@@ -95,12 +95,13 @@ workflows:
             tags:
               only: /^v.*/
       - sanity:
+          requires:
+            - test
           filters:
             tags:
               only: /^v.*/
       - deploy:
           requires:
-            - test
             - sanity
           filters:
             branches:
