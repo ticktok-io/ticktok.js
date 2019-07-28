@@ -12,6 +12,8 @@ jobs:
     steps:
       - checkout
 
+      - setup_remote_docker
+      
       - run:
           name: Run docker-compose.yml
           command: docker-compose up -d
