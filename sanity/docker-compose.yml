@@ -7,7 +7,6 @@ services:
       - 9643:9643
     environment:
       - RABBIT_URI=amqp://rabbit
-      - RABBIT_CONSUMERURI=amqp://localhost
     depends_on:
       - rabbit
 
@@ -16,7 +15,6 @@ services:
     ports:
       - 8888:15672
       - 5672:5672
-    hostname: ticktok-rabbit
 
 networks:
   default:
