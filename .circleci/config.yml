@@ -15,8 +15,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: .circleci/run_compose.sh npm ci
-      - run: .circleci/run_compose.sh npm run ci-test
+      - run: .circleci/run_compose.sh run nodejs npm ci
+      - run: .circleci/run_compose.sh run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test
 
       - save_cache:
           paths:
