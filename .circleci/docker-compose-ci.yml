@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  nodejs:
+    image: node:8-alpine
+    volumes:
+      - .:/opt/ci
+    working_dir: /opt/ci
+
