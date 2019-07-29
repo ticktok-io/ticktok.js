@@ -48,9 +48,7 @@ jobs:
 
       - run: docker network create ci-network
 
-      - run: docker-compose up -d
-
-      - run: sleep 20
+      - run: docker-compose up -d && sleep 20
 
       # Download and cache dependencies
       - restore_cache:
