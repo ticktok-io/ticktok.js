@@ -10,9 +10,9 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: Run docker-compose.yml
-          command: docker-compose up -d
+      - run: docker network create ci-network
+
+      - run: docker-compose up -d
 
       - run: sleep 40
 
@@ -48,9 +48,9 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: Run docker-compose.yml
-          command: docker-compose up -d
+      - run: docker network create ci-network
+
+      - run: docker-compose up -d
 
       - run: sleep 20
 
