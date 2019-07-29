@@ -39,7 +39,7 @@ jobs:
       - checkout
 
       - run:
-          command: .circleci/run_compose.sh up -d && sleep 20
+          command: ../.circleci/run_compose.sh up -d && sleep 20
           working_directory: sanity
 
       # Download and cache dependencies
@@ -49,15 +49,19 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-sanity-dependencies-
 
-      - run: .circleci/run_compose.sh run nodejs npm ci --prefix sanity
-      - run: .circleci/run_compose.sh run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test --prefix sanity
+      - run:
+          command: ../.circleci/run_compose.sh run nodejs npm ci
+          working_directory: sanity
+      - run:
+          command: .circleci/run_compose.sh run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test
+          working_directory: sanity
 
       - save_cache:
           paths:
             - sanity/node_modules
           key: v1-sanity-dependencies-{{ checksum "sanity/package.json" }}
 
-      - run: docker-compose down
+      - run: .circleci/run_compose.sh down
 
       - store_test_results:
           path: test-results
