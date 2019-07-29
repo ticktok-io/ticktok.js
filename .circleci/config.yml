@@ -53,7 +53,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-sanity-dependencies-
 
-      - run: .circleci/run_npm.sh sanity ci --prefix sanity
+      - run: .circleci/run_npm.sh ci --prefix sanity
       - run: .circleci/run_npm.sh run ci-test --prefix sanity
 
       - save_cache:
