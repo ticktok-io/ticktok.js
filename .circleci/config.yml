@@ -38,10 +38,8 @@ jobs:
     steps:
       - checkout
 
-      - run: docker network create ci-network
-
       - run:
-          command: docker-compose up -d && sleep 20
+          command: .circleci/run_compose.sh up -d && sleep 20
           working_directory: sanity
 
       # Download and cache dependencies
@@ -51,8 +49,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-sanity-dependencies-
 
-      - run: .circleci/run_npm.sh ci --prefix sanity
-      - run: .circleci/run_npm.sh run ci-test --prefix sanity
+      - run: .circleci/run_compose.sh run nodejs npm ci --prefix sanity
+      - run: .circleci/run_compose.sh run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test --prefix sanity
 
       - save_cache:
           paths:
