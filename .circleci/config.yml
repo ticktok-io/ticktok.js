@@ -36,13 +36,13 @@ jobs:
 
   sanity:
     machine: true
-    working_directory: ~/repo/sanity
 
     steps:
       - checkout
 
-      - run: docker network create ci-network
+      - run: cd sanity
 
+      - run: docker network create ci-network
       - run: docker-compose up -d && sleep 20
 
       # Download and cache dependencies
@@ -52,8 +52,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-sanity-dependencies-
 
-      - run: ./.circleci/run_npm.sh ci
-      - run: ./.circleci/run_npm.sh run ci-test
+      - run: ../.circleci/run_npm.sh ci
+      - run: ../.circleci/run_npm.sh run ci-test
 
       - save_cache:
           paths:
