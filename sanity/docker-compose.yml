@@ -21,4 +21,4 @@ services:
 networks:
   default:
     external:
-      name: sanity-network
+      name: ci-network
