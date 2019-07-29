@@ -35,9 +35,7 @@ jobs:
           paths: .
 
   sanity:
-    machine:
-      image: circleci/classic:201808-01
-
+    machine: true
     working_directory: ~/repo/sanity
 
     steps:
