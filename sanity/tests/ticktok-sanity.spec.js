@@ -4,7 +4,7 @@ const domain = process.env.TICKTOK_DOMAIN || 'http://localhost:9643'
 const token = process.env.TICKTOK_TOKEN || 'ticktok-zY3wpR'
 
 describe('Tictok sanity', () => {
-  this.ticktok = ticktok(domain, token)
+  this.ticktok = ticktok(domain, '111222')
 
   it('should schedule simple interval', (done) => {
     let tickCount = 0
