@@ -18,3 +18,7 @@ services:
       - 5672:5672
     hostname: ticktok-rabbit
 
+networks:
+  default:
+    external:
+      name: sanity-network
