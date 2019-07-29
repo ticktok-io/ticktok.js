@@ -1,11 +1,7 @@
 version: 2
 
-defaults: &defaults
-  working_directory: ~/repo
-
 jobs:
   test:
-    <<: *defaults
     machine: true
     steps:
       - checkout
@@ -39,9 +35,10 @@ jobs:
           paths: .
 
   sanity:
-    working_directory: ~/repo/sanity
     machine:
       image: circleci/classic:201808-01
+
+    working_directory: ~/repo/sanity
 
     steps:
       - checkout
@@ -71,7 +68,6 @@ jobs:
           path: test-results
 
   deploy:
-    <<: *defaults
     docker:
       - image: circleci/node:8
     steps:
