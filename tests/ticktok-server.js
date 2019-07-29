@@ -19,7 +19,7 @@ let overrides = {}
 let clocks = {}
 let tickedClocks = []
 
-const rabbitUri = process.env('RABBIT_URI', 'amqp://localhost')
+const rabbitUri = process.env.RABBIT_URI | 'amqp://localhost'
 const queueName = 'spec-tick-queue'
 
 const start = async() => {
