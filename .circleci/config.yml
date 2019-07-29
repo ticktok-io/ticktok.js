@@ -6,14 +6,10 @@ defaults: &defaults
 jobs:
   test:
     <<: *defaults
-    docker:
-      - image: circleci/node:8
-
+    machine: true
     steps:
       - checkout
 
-      - setup_remote_docker
-      
       - run:
           name: Run docker-compose.yml
           command: docker-compose up -d
