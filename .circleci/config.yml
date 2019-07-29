@@ -40,25 +40,26 @@ jobs:
     steps:
       - checkout
 
-      - run: cd sanity
-
       - run: docker network create ci-network
-      - run: docker-compose up -d && sleep 20
+
+      - run:
+          command: docker-compose up -d && sleep 20
+          working_directory: sanity
 
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-sanity-dependencies-{{ checksum "package.json" }}
+            - v1-sanity-dependencies-{{ checksum "sanity/package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-sanity-dependencies-
 
-      - run: ../.circleci/run_npm.sh ci
-      - run: ../.circleci/run_npm.sh run ci-test
+      - run: ../.circleci/run_npm.sh sanity ci --prefix sanity
+      - run: ../.circleci/run_npm.sh run ci-test --prefix sanity
 
       - save_cache:
           paths:
-            - node_modules
-          key: v1-sanity-dependencies-{{ checksum "package.json" }}
+            - sanity/node_modules
+          key: v1-sanity-dependencies-{{ checksum "sanity/package.json" }}
 
       - run: docker-compose down
 
