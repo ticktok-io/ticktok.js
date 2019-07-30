@@ -16,7 +16,3 @@ services:
       - 8888:15672
       - 5672:5672
 
-networks:
-  default:
-    external:
-      name: ci-network
