@@ -4,6 +4,6 @@ services:
   nodejs:
     image: node:8-alpine
     volumes:
-      - "${PWD}:/opt/ci"
+      - "$(PWD):/opt/ci"
     working_dir: /opt/ci
 
