@@ -54,7 +54,7 @@ jobs:
           command: ../.circleci/run_compose.sh run nodejs npm ci
           working_directory: sanity
       - run:
-          command: .circleci/run_compose.sh run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test
+          command: ../.circleci/run_compose.sh run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test
           working_directory: sanity
 
       - save_cache:
