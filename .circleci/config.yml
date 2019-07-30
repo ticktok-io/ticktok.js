@@ -3,6 +3,7 @@ version: 2
 jobs:
   test:
     machine: true
+    working_directory: ~/repo
     steps:
       - checkout
 
@@ -39,7 +40,6 @@ jobs:
       - checkout
 
       - run:
-
           command: ../.circleci/run_compose.sh up -d && sleep 20
           working_directory: sanity
 
@@ -51,7 +51,7 @@ jobs:
             - v1-sanity-dependencies-
 
       - run:
-          command: ../.circleci/run_compose.sh run nodejs npm ci
+          command: ../.circleci/run_compose.sh run nodejs npm install
           working_directory: sanity
       - run:
           command: ../.circleci/run_compose.sh run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test
