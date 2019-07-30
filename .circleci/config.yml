@@ -39,7 +39,7 @@ jobs:
       - checkout
 
       - run:
-          command: sh ../.circleci/run_compose.sh up -d && sleep 20
+          command: ~/project/.circleci/run_compose.sh up -d && sleep 20
           working_directory: sanity
 
       # Download and cache dependencies
