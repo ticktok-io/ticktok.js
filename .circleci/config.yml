@@ -53,8 +53,16 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-sanity-dependencies-
 
-      - run: .circleci/run_sanity_compose.sh run nodejs npm install --prefix sanity
-      - run: .circleci/run_sanity_compose.sh run -e TICKTOK_DOMAIN=http://ticktok:9643 -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test --prefix sanity
+      - run:
+          name: Install dependencies
+          comand: .circleci/run_sanity_compose.sh run nodejs npm install --prefix sanity
+
+      - run:
+          name: Run sanity tests
+          command: .circleci/run_sanity_compose.sh run \
+            -e TICKTOK_DOMAIN=http://ticktok:9643 \
+            -e RABBIT_URI=amqp://rabbit \
+            nodejs npm run ci-test --prefix sanity
 
       - save_cache:
           paths:
