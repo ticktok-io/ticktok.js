@@ -39,7 +39,7 @@ jobs:
     steps:
       - checkout
 
-      - run: .circleci/run_compose.sh --project-directory sanity up -d && sleep 15
+      - run: .circleci/run_sanity_compose.sh up -d && sleep 15
 
       # Download and cache dependencies
       - restore_cache:
@@ -48,8 +48,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-sanity-dependencies-
 
-      - run: .circleci/run_compose.sh --project-directory sanity run nodejs npm install
-      - run: .circleci/run_compose.sh --project-directory sanity run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test
+      - run: .circleci/run_sanity_compose.sh run nodejs npm install --prefix sanity
+      - run: .circleci/run_sanity_compose.sh run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test --prefix sanity
 
       - save_cache:
           paths:
