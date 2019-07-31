@@ -56,7 +56,7 @@ jobs:
             - sanity/node_modules
           key: v1-sanity-dependencies-{{ checksum "sanity/package.json" }}
 
-      - run: .circleci/run_compose.sh down
+      - run: .circleci/run_sanity_compose.sh down
 
       - store_test_results:
           path: sanity/test-results
