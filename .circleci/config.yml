@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
 
-      - run: .circleci/run_compose.sh up -d && sleep 10
+      - run: .circleci/run_compose.sh up -d && sleep 5
 
       # Download and cache dependencies
       - restore_cache:
@@ -44,7 +44,7 @@ jobs:
       - attach_workspace:
           at: ~/repo
 
-      - run: .circleci/run_sanity_compose.sh up -d && sleep 15
+      - run: .circleci/run_sanity_compose.sh up -d && sleep 10
 
       # Download and cache dependencies
       - restore_cache:
@@ -59,9 +59,11 @@ jobs:
 
       - run:
           name: Run sanity tests
-          command: .circleci/run_sanity_compose.sh run \
-            -e TICKTOK_DOMAIN=http://ticktok:9643 \
-            -e RABBIT_URI=amqp://rabbit \
+          command:
+            - >
+            .circleci/run_sanity_compose.sh run
+            -e TICKTOK_DOMAIN=http://ticktok:9643
+            -e RABBIT_URI=amqp://rabbit
             nodejs npm run ci-test --prefix sanity
 
       - save_cache:
