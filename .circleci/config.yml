@@ -35,8 +35,12 @@ jobs:
 
   sanity:
     machine: true
+    working_directory: ~/repo
 
     steps:
+      - attach_workspace:
+          at: ~/repo
+          
       - checkout
 
       - run: .circleci/run_sanity_compose.sh up -d && sleep 15

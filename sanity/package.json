@@ -4,7 +4,7 @@
   "description": "Sanity tests for ticktok.js",
   "scripts": {
     "test": "mocha tests --timeout 5000 --exit",
-    "ci-test": "MOCHA_FILE=./test-results1/mocha/results.xml mocha tests --timeout 5000 --exit --reporter mocha-junit-reporter"
+    "ci-test": "MOCHA_FILE=./test-results/mocha/results.xml mocha tests --timeout 5000 --exit --reporter mocha-junit-reporter"
   },
   "keywords": [
     "ticktok",
