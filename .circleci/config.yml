@@ -59,7 +59,7 @@ jobs:
       - run: .circleci/run_compose.sh down
 
       - store_test_results:
-          path: test-results
+          path: sanity/test-results
 
   deploy:
     docker:
