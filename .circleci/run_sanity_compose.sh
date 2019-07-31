@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -f sanity/docker-compose.yml -f .circleci/docker-compose-ci.yml "$@"
+docker-compose --project-directory `pwd` -f sanity/docker-compose.yml -f .circleci/docker-compose-ci.yml "$@"
