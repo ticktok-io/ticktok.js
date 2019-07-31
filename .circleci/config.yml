@@ -59,12 +59,11 @@ jobs:
 
       - run:
           name: Run sanity tests
-          command:
-            - >-
-            .circleci/run_sanity_compose.sh run
-            -e TICKTOK_DOMAIN=http://ticktok:9643
-            -e RABBIT_URI=amqp://rabbit
-            nodejs npm run ci-test --prefix sanity
+          command: |
+            .circleci/run_sanity_compose.sh run \
+              -e TICKTOK_DOMAIN=http://ticktok:9643 \
+              -e RABBIT_URI=amqp://rabbit \
+              nodejs npm run ci-test --prefix sanity
 
       - save_cache:
           paths:
