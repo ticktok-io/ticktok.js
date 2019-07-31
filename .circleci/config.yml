@@ -44,7 +44,7 @@ jobs:
       - attach_workspace:
           at: ~/repo
 
-      - run: .circleci/run_sanity_compose.sh up -d && sleep 10
+      - run: .circleci/run_sanity_compose.sh up -d && sleep 15
 
       # Download and cache dependencies
       - restore_cache:
