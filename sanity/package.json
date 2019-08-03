@@ -1,19 +1,22 @@
 {
-  "name": "ticktok-examples",
+  "name": "ticktok-sanity",
   "version": "1.0.0",
   "description": "Sanity tests for ticktok.js",
   "scripts": {
-    "test": "mocha tests --timeout 5000 --exit"
+    "test": "mocha tests --timeout 5000 --exit",
+    "ci-test": "MOCHA_FILE=./test-results/mocha/results.xml mocha tests --timeout 5000 --exit --reporter mocha-junit-reporter"
   },
   "keywords": [
     "ticktok",
     "js",
-    "sdk"
+    "sdk",
+    "sanity"
   ],
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.0.2",
+    "mocha": "^6.2.0",
+    "mocha-junit-reporter": "^1.18.0",
     "ticktok": "file:.."
   }
 }

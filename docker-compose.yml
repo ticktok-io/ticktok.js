@@ -6,5 +6,4 @@ services:
     ports:
       - 8888:15672
       - 5672:5672
-    hostname: ticktok-rabbit
 

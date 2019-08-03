@@ -110,7 +110,7 @@ describe('Tick Channel', () => {
 
   describe('Rabbit channel', () => {
 
-    const rabbitUri = 'amqp://localhost'
+    const rabbitUri = process.env.RABBIT_URI || 'amqp://localhost'
     const queueName = 'channel-test'
 
     beforeEach(async() => {

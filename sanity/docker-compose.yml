@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  ticktok:
+    image: ticktok/ticktok:0.2.6
+    ports:
+      - 9643:9643
+    environment:
+      - RABBIT_URI=amqp://rabbit
+    depends_on:
+      - rabbit
+
+  rabbit:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 8888:15672
+      - 5672:5672
+

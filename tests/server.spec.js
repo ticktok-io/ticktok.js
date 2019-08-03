@@ -28,10 +28,12 @@ describe('Server actions', () => {
   })
 
   describe('Manual tick', () => {
+    const findClockParams = Object.assign({}, clock, { access_token: options.token })
+
     it('should fail on server error when finding clock', async() => {
       nock(options.domain)
         .get(server.clocksPath)
-        .query(clock)
+        .query(findClockParams)
         .reply(500)
       await expect(server.tick(clock, options)).to.be.rejectedWith(server.ClockTickError)
     })
@@ -39,9 +41,9 @@ describe('Server actions', () => {
     it('should fail on server error when executing tick', async() => {
       nock(options.domain)
         .get(server.clocksPath)
-        .query(clock)
+        .query(findClockParams)
         .reply(200, [{ id: '9871' }])
-        .post(`${server.clocksPath}/9871/tick`)
+        .put(`${server.clocksPath}/9871/tick`)
         .reply(500)
       await expect(server.tick(clock, options)).to.be.rejectedWith(server.ClockTickError)
     })
@@ -49,7 +51,7 @@ describe('Server actions', () => {
     it('should fail on non existing clock', async() => {
       nock(options.domain)
         .get(server.clocksPath)
-        .query(clock)
+        .query(findClockParams)
         .reply(200, [])
       await expect(server.tick(clock, options)).to.be.rejected.then((error) => {
         expect(error).to.be.instanceOf(server.ClockTickError)

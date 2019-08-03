@@ -2,15 +2,15 @@ version: 2
 
 defaults: &defaults
   working_directory: ~/repo
-  docker:
-    - image: circleci/node:8
-    - image: rabbitmq:3
 
 jobs:
   test:
     <<: *defaults
+    machine: true
     steps:
       - checkout
+
+      - run: .circleci/run_compose.sh up -d && sleep 5
 
       # Download and cache dependencies
       - restore_cache:
@@ -19,13 +19,15 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: npm ci
-      - run: npm run ci-test
+      - run: .circleci/run_compose.sh run nodejs npm ci
+      - run: .circleci/run_compose.sh run -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: .circleci/run_compose.sh down
 
       - store_test_results:
           path: test-results
@@ -34,8 +36,45 @@ jobs:
           root: ~/repo
           paths: .
 
+  sanity:
+    <<: *defaults
+    machine: true
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run: .circleci/run_sanity_compose.sh up -d && sleep 15
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-sanity-dependencies-{{ checksum "sanity/package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-sanity-dependencies-
+
+      - run:
+          name: Install dependencies
+          command: .circleci/run_sanity_compose.sh run nodejs npm install --prefix sanity
+
+      - run:
+          name: Run sanity tests
+          command: .circleci/run_sanity_compose.sh run -e TICKTOK_DOMAIN=http://ticktok:9643 -e RABBIT_URI=amqp://rabbit nodejs npm run ci-test --prefix sanity
+
+      - save_cache:
+          paths:
+            - sanity/node_modules
+          key: v1-sanity-dependencies-{{ checksum "sanity/package.json" }}
+
+      - run: .circleci/run_sanity_compose.sh down
+
+      - store_test_results:
+          path: sanity/test-results
+
   deploy:
     <<: *defaults
+    docker:
+      - image: circleci/node:8
     steps:
       - attach_workspace:
           at: ~/repo
@@ -54,9 +93,15 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-      - deploy:
+      - sanity:
           requires:
             - test
+          filters:
+            tags:
+              only: /^v.*/
+      - deploy:
+          requires:
+            - sanity
           filters:
             branches:
               ignore: /.*/

@@ -19,7 +19,7 @@ let overrides = {}
 let clocks = {}
 let tickedClocks = []
 
-const rabbitUri = 'amqp://localhost'
+const rabbitUri = process.env.RABBIT_URI || 'amqp://localhost'
 const queueName = 'spec-tick-queue'
 
 const start = async() => {
@@ -38,18 +38,19 @@ const start = async() => {
       const resultClocks = []
       const urlParams = new URLSearchParams(new URL('http://bla' + uri).search)
       const clockKey = `${urlParams.get('name')}${urlParams.get('schedule')}`
-      if(clockKey in clocks) {
+      if (clockKey in clocks) {
         resultClocks.push({ id: clocks[clockKey] })
       }
       return [200, resultClocks]
     })
-    .post(/api\/v1\/clocks\/.+\/tick$/)
+    .put(/api\/v1\/clocks\/.+\/tick$/)
+    .query({ access_token: TOKEN })
     .reply((uri, body) => {
       const ids = []
-      const res = uri.match(/api\/v1\/clocks\/(.+)\/tick$/)
-      if(Object.values(clocks).includes(res[1])) {
+      const res = uri.match(/api\/v1\/clocks\/(.+)\/tick\?.+$/)
+      if (Object.values(clocks).includes(res[1])) {
         tickedClocks.push(res[1])
-        ids.push({id: res[1]})
+        ids.push({ id: res[1] })
       }
       [200, JSON.stringify(ids)]
     })
