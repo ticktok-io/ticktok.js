@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "amqplib": "^0.5.3",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "axios-retry": "^3.1.2"
   }
 }
